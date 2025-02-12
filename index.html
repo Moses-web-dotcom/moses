@@ -1,121 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-</head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: 'poppins', sans-serif;
-        box-sizing: border-box;
-    }
-    .container {
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .Calculator {
-        background-color: rgb(42, 42, 55);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: -8px -8px 15px rgba(255, 255, 255, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    .Calculator form input {
-        outline: none;
-        width: 60px;
-        height: 60px;
-        border-radius: 10px;
-        background: transparent;
-        font-size: 20px;
-        color: white;
-        cursor: pointer;
-        margin: 10px;
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.1);
-    }
-    .display {
-        display: flex;
-        justify-content: flex-end;
-        margin: 20px 0;
-    }
-    .display input {
-        text-align: right;
-        flex: 1;
-        font-size: 30px;
-        border: none;
-        background: transparent;
-        color: white;
-    }
-    form input.equal {
-        width: 145px;
-    }
-</style>
-<body>
-    <div class="container">
-        <div class="Calculator">
-           <form name="calculator">
-            <p style="text-align: center; color: white; font-style: italic;">Basic Calculator.</p>
-            <div class="display">
-                <input type="text" name="display" readonly>
-            </div>
-            <div>
-                <input type="button" value="AC" onclick="clearDisplay()">
-                <input type="button" value="DE" onclick="deleteCharacter()">
-                <input type="button" value="." onclick="appendCharacter('.')">
-                <input type="button" value="/" onclick="appendCharacter('/')">
-            </div>
-            <div>
-                <input type="button" value="7" onclick="appendCharacter('7')">
-                <input type="button" value="8" onclick="appendCharacter('8')">
-                <input type="button" value="9" onclick="appendCharacter('9')">
-                <input type="button" value="*" onclick="appendCharacter('*')">
-            </div>
-            <div>
-                <input type="button" value="4" onclick="appendCharacter('4')">
-                <input type="button" value="5" onclick="appendCharacter('5')">
-                <input type="button" value="6" onclick="appendCharacter('6')">
-                <input type="button" value="-" onclick="appendCharacter('-')">
-            </div>
-            <div>
-                <input type="button" value="1" onclick="appendCharacter('1')">
-                <input type="button" value="2" onclick="appendCharacter('2')">
-                <input type="button" value="3" onclick="appendCharacter('3')">
-                <input type="button" value="+" onclick="appendCharacter('+')">
-            </div>
-            <div>
-                <input type="button" value="00" onclick="appendCharacter('00')">
-                <input type="button" value="0" onclick="appendCharacter('0')">
-                <input type="button" value="=" class="equal" onclick="calculateResult()">
-            </div>
-           </form>
-        </div>
-    </div>
-
-    <!-- --- Embedded JavaScript --- -->
-    <script>
-        function appendCharacter(char) {
-            document.calculator.display.value += char;
+    <title>Micro Task Website</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            line-height: 1.6;
+            background-color: #f4f4f4;
         }
 
-        function clearDisplay() {
-            document.calculator.display.value = '';
+        .navbar-brand img {
+            width: 50px;
+            height: auto;
         }
 
-        function deleteCharacter() {
-            document.calculator.display.value = document.calculator.display.value.slice(0, -1);
+        .dashboard {
+            margin-bottom: 2rem;
         }
 
-        function calculateResult() {
-            try {
-                document.calculator.display.value = eval(document.calculator.display.value);
-            } catch (error) {
-                document.calculator.display.value = 'Error';
+        iframe {
+            width: 100%;
+            height: 100px;
+            border: none;
+        }
+
+        .task-button {
+            margin-top: 10px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
             }
         }
-    </script>
+        .start{
+            display: inline-block;
+            background-color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            color: green;
+        }
+        .cont{
+            text-align: center;
+            margin-top: 20px
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="cont">
+            <h1 class="start">Micro Task Website</h1>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" alt="Micro Task Logo" style="width: 200px; height: auto;">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#surveys">Surveys</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#videos">Videos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tasks">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#user-dashboard">User Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#earnings-dashboard">Earnings Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#withdraw" onclick="openWithdrawalModal()">Withdraw</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#signup">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container mt-4">
+        <section id="surveys" class="bg-red p-4 rounded shadow d-none" style="background-color: gold;">
+            <h2>Surveys</h2>
+            <p>Complete surveys from the following partners to earn rewards:</p>
+            <ul>
+                <li>
+                    <input type="checkbox" onchange="checkSurvey(this, 10)">
+                    <a href="https://www.swagbucks.com/" target="_blank">Swagbucks</a>
+                </li>
+                <li>
+                    <input type="checkbox" onchange="checkSurvey(this, 15)">
+                    <a href="https://www.surveyjunkie.com/" target="_blank">Survey Junkie</a>
+                </li>
+                <li>
+                    <input type="checkbox" onchange="checkSurvey(this, 5)">
+                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.paidtasks&hl=en&gl=US" target="_blank">Google Opinion Rewards</a>
+                </li>
+                <li>
+                    <input type="checkbox" onchange="checkSurvey(this, 20)">
+                    <a href="https://www.mypoints.com/" target="_blank">MyPoints</a>
+                </li>
+                <li>
+                    <input type="checkbox" onchange="checkSurvey(this, 12)">
+                    <a href="https://www.inboxdollars.com/" target="_blank">InboxDollars</a>
+                </li>
+            </ul>
+        </section>
+        <section id="videos" class="bg-white p-4 rounded shadow d-none mt-4">
+            <h2>Videos</h2>
+            <p>Watch the following short videos on Computer Science to earn rewards:</p>
+            <iframe src="https://www.youtube.com/embed/i5DCqgl9dFk" allowfullscreen onload="trackVideo(this, 15)"></iframe>
+            <iframe src="https://www.youtube.com/embed/mfrQTgBwKk8" allowfullscreen onload="trackVideo(this, 15)"></iframe>
+            <iframe src="https://www.youtube.com/embed/WxYC9-hBM_g" allowfullscreen onload="trackVideo(this, 15)"></iframe>
+            <iframe src="https://www.youtube.com/embed/Wjrdr0NU4Sk" allowfullscreen onload="trackVideo(this, 15)"></iframe>
+            <iframe src="https://www.youtube.com/embed/7TR-FLWNVHY" allowfullscreen onload="trackVideo(this, 15)"></iframe>
+        </section>
+         <section id="tasks" class="bg-red p-4 rounded shadow d-none mt-4" style="background-color: gold;">
+            <h2>Tasks</h2>
+            <p>Complete tasks from both surveys and videos to earn rewards:</p>
+            <button class="btn btn-info task-button" onclick="completeTask(10)">Complete Survey Task (Earn 10 points)</button>
+            <button class="btn btn-info task-button" onclick="completeTask(5)">Complete Video Task (Earn 5 points)</button>
+        </section>
+        <section id="user-dashboard" class="dashboard bg-light p-4 rounded shadow d-none" >
+            <h2>User Dashboard</h2>
+            <p>Welcome, User!</p>
+            <p>Tasks Completed: <span id="tasks-completed">0</span></p>
+        </section>
+        <section id="earnings-dashboard" class="dashboard bg-redp-4 rounded shadow d-none mt-4" style="background-color: gold;">
+            <h2>Earnings Dashboard</h2>
+            <p>Total Earnings: <span id="total-earnings">0</span> points</p>
+        </section>
+
+        <!-- Withdrawal Modal -->
+        <div class="modal fade" id="withdrawalModal" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="withdrawalModalLabel">Withdrawal</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to withdraw?<br>
+                        Minimum withdrawal amount is 100 SHS. Your current balance is <span id="current-balance">0</span> SHS.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="processWithdrawal()">Withdraw</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <section id="login" class="form-container mt-4 fade-in">
+            <h2>Login</h2>
+            <form onsubmit="return login()">
+                <div class="form-group">
+                    <label for="loginEmail">Email address</label>
+                    <input type="email" class="form-control" id="loginEmail" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+    </section>
+
+    <!-- Signup Section -->
+    <section id="signup" class="form-container mt-4 fade-in">
+        <h2>Sign Up</h2>
+        <form onsubmit="return signup()">
+            <div class="form-group">
+                <label for="signupName">Full Name</label>
+                <input type="text" class="form-control" id="signupName" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email address</label>
+                <input type="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <label for="signupMobile">Mobile Number</label>
+                <input type="text" class="form-control" id="signupMobile" placeholder="Enter mobile number" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-success">Sign Up</button>
+        </form>
+    </section>
+</main>
+
+<!-- Modal for Prompting Signup/Login -->
+<div class="modal fade" id="authPromptModal" tabindex="-1" role="dialog" aria-labelledby="authPromptModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="authPromptModalLabel">Access Restricted</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You need to sign up or log in to access this site.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="showSignup()">Sign Up</button>
+                <button type="button" class="btn btn-info" onclick="showLogin()">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center text-white p-4 mt-4">
+    <p>&copy; 2025 Micro Task Website</p>
+</footer>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // User registration state
+    let isRegistered = false;
+    let earnings = 0; // Total earnings
+    let tasksCompleted = 0; // Total tasks completed
+    const pointsFromVideo = 5; // Points awarded for video completion
+    const watchedVideos = []; // Store watched video identifiers
+
+    // Show main content or prompt modal after 5 seconds
+    function showContent() {
+        if (isRegistered) {
+            document.querySelectorAll('.d-none').forEach((section) => section.classList.remove('d-none'));
+            document.getElementById('current-balance').textContent = earnings; // Display the current balance
+        } else {
+            // Show modal if not registered
+            $('#authPromptModal').modal('show');
+
+            // Automatically close the modal after 5 seconds
+            setTimeout(() => {
+                $('#authPromptModal').modal('hide');
+            }, 5000);
+        }
+    }
+
+    function login() {
+        isRegistered = true; // Set state to registered
+        $('#authPromptModal').modal('hide'); // Hide modal
+        showContent(); // Show content
+        return false; // Prevent form submission
+    }
+
+    function signup() {
+        isRegistered = true; // Set state to registered
+        $('#authPromptModal').modal('hide'); // Hide modal
+        showContent(); // Show content
+        return false; // Prevent form submission
+    }
+
+    function trackVideo(videoElement, requiredTime) {
+        const videoSrc = videoElement.src; // Getting the source of the video
+        let timeWatched = 0; // Initialize time watched
+
+        videoElement.addEventListener('load', () => {
+            const interval = setInterval(() => {
+                timeWatched += 1; // Increment watched time
+                if (timeWatched >= requiredTime) {
+                    if (!watchedVideos.includes(videoSrc)) {
+                        earnings += pointsFromVideo; // Add points to earnings
+                        watchedVideos.push(videoSrc); // Mark video as watched
+                        updateDashboard(); // Update the dashboard
+                    }
+                    clearInterval(interval); // Stop the interval after required time
+                }
+            }, 1000); // Increment every second
+        });
+    }
+
+    function checkSurvey(checkbox, points) {
+        if (checkbox.checked) {
+            earnings += points; // Add points for completed survey
+            updateDashboard(); // Update the dashboard
+        }
+    }
+
+    function updateDashboard() {
+        document.getElementById('total-earnings').textContent = earnings; // Update total earnings
+        document.getElementById('tasks-completed').textContent = tasksCompleted; // Update tasks completed
+    }
+
+    function completeTask(points) {
+        tasksCompleted++;
+        earnings += points; // Increment earnings by the task points
+        updateDashboard(); // Update the dashboard
+    }
+
+    function openWithdrawalModal() {
+        $('#withdrawalModal').modal('show'); // Show the withdrawal modal
+    }
+
+    function processWithdrawal() {
+        const minimumWithdrawal = 100; // Define the minimum withdrawal amount
+
+        if (earnings >= minimumWithdrawal) {
+            alert("Withdrawal successful! The funds will be sent to your registered mobile number.");
+            earnings -= minimumWithdrawal; // Deduct the withdrawal amount
+            updateDashboard(); // Update the dashboard
+            $('#withdrawalModal').modal('hide'); // Hide the modal
+        } else {
+            alert("Insufficient balance for withdrawal."); // Show insufficient balance message
+        }
+    }
+
+    function showSignup() {
+        $('#authPromptModal').modal('hide');
+        document.getElementById('signup').scrollIntoView(); // Scroll to signup
+    }
+
+    function showLogin() {
+        $('#authPromptModal').modal('hide');
+        document.getElementById('login').scrollIntoView(); // Scroll to login
+    }
+
+    setTimeout(showContent, 5000);
+</script>
 </body>
 </html>
