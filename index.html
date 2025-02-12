@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'poppins', sans-serif;
+        box-sizing: border-box;
+    }
+    .container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .Calculator {
+        background-color: rgb(42, 42, 55);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: -8px -8px 15px rgba(255, 255, 255, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .Calculator form input {
+        outline: none;
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        background: transparent;
+        font-size: 20px;
+        color: white;
+        cursor: pointer;
+        margin: 10px;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+    }
+    .display {
+        display: flex;
+        justify-content: flex-end;
+        margin: 20px 0;
+    }
+    .display input {
+        text-align: right;
+        flex: 1;
+        font-size: 30px;
+        border: none;
+        background: transparent;
+        color: white;
+    }
+    form input.equal {
+        width: 145px;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="Calculator">
+           <form name="calculator">
+            <p style="text-align: center; color: white; font-style: italic;">Basic Calculator.</p>
+            <div class="display">
+                <input type="text" name="display" readonly>
+            </div>
+            <div>
+                <input type="button" value="AC" onclick="clearDisplay()">
+                <input type="button" value="DE" onclick="deleteCharacter()">
+                <input type="button" value="." onclick="appendCharacter('.')">
+                <input type="button" value="/" onclick="appendCharacter('/')">
+            </div>
+            <div>
+                <input type="button" value="7" onclick="appendCharacter('7')">
+                <input type="button" value="8" onclick="appendCharacter('8')">
+                <input type="button" value="9" onclick="appendCharacter('9')">
+                <input type="button" value="*" onclick="appendCharacter('*')">
+            </div>
+            <div>
+                <input type="button" value="4" onclick="appendCharacter('4')">
+                <input type="button" value="5" onclick="appendCharacter('5')">
+                <input type="button" value="6" onclick="appendCharacter('6')">
+                <input type="button" value="-" onclick="appendCharacter('-')">
+            </div>
+            <div>
+                <input type="button" value="1" onclick="appendCharacter('1')">
+                <input type="button" value="2" onclick="appendCharacter('2')">
+                <input type="button" value="3" onclick="appendCharacter('3')">
+                <input type="button" value="+" onclick="appendCharacter('+')">
+            </div>
+            <div>
+                <input type="button" value="00" onclick="appendCharacter('00')">
+                <input type="button" value="0" onclick="appendCharacter('0')">
+                <input type="button" value="=" class="equal" onclick="calculateResult()">
+            </div>
+           </form>
+        </div>
+    </div>
+
+    <!-- --- Embedded JavaScript --- -->
+    <script>
+        function appendCharacter(char) {
+            document.calculator.display.value += char;
+        }
+
+        function clearDisplay() {
+            document.calculator.display.value = '';
+        }
+
+        function deleteCharacter() {
+            document.calculator.display.value = document.calculator.display.value.slice(0, -1);
+        }
+
+        function calculateResult() {
+            try {
+                document.calculator.display.value = eval(document.calculator.display.value);
+            } catch (error) {
+                document.calculator.display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
