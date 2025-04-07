@@ -1,845 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Micro Task Website</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Toast Notification Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <style>
-        /* Your original CSS preserved */
-        body {
-            line-height: 1.6;
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SwiftBoost - Productivity Tools</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f8fb;
+      color: #333;
+    }
 
-        .navbar-brand img {
-            width: 50px;
-            height: auto;
-        }
+    header {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
 
-        .dashboard {
-            margin-bottom: 2rem;
-        }
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
 
-        iframe {
-            width: 100%;
-            height: 100px;
-            border: none;
-        }
+    header p {
+      font-size: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
 
-        .task-button {
-            margin-top: 10px;
-        }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
 
-        .form-container {
-            max-width: 500px;
-            margin: auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    .feature {
+      flex: 1 1 300px;
+      margin: 20px;
+      padding: 20px;
+      background-color: #eef2f7;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
 
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
+    .feature h3 {
+      margin-top: 0;
+      color: #0072ff;
+    }
 
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
-        }
+    .cta-section {
+      text-align: center;
+      padding: 50px 20px;
+      background: #e0f7fa;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+    .cta-section h2 {
+      font-size: 32px;
+    }
 
-        .start {
-            display: inline-block;
-            background-color: #333;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-align: center;
-            color: green;
-        }
+    .cta-section button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
 
-        .cont {
-            text-align: center;
-            margin-top: 20px;
-        }
+    .cta-section button:hover {
+      background-color: #005fcc;
+    }
 
-        @keyframes glow {
-            0% {
-                opacity: 0.5;
-                background-position: 0% 50%;
-            }
-            50% {
-                opacity: 1;
-                background-position: 100% 50%;
-            }
-            100% {
-                opacity: 0.5;
-                background-position: 0% 50%;
-            }
-        }
-
-        .form-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .form-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg,
-                rgba(0, 255, 204, 0.4),
-                rgba(0, 102, 255, 0.4),
-                rgba(255, 0, 204, 0.4)
-            );
-            background-size: 200% 200%;
-            animation: glow 4s infinite ease-in-out;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .form-container form {
-            position: relative;
-            z-index: 2;
-        }
-
-        .form-container {
-            text-align: center;
-        }
-
-        .form-container h2 {
-            color: green;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-container .form-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-
-        .form-container .form-group label {
-            text-align: center;
-            width: 100%;
-        }
-
-        .form-container .form-control {
-            text-align: center;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        .form-container .text-center {
-            margin-top: 1rem;
-        }
-
-        #loading-spinner {
-            display: block;
-        }
-
-        .d-none #loading-spinner {
-            display: none;
-        }
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        body.dark-mode {
-            background-color: #333;
-            color: #fff;
-        }
-
-        .dark-mode .form-container {
-            background-color: #444;
-            color: #fff;
-        }
-
-        .dark-mode .navbar-dark {
-            background-color: #222 !important;
-        }
-
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .progress-bar {
-            transition: width 0.5s ease;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        /* Added auth messages */
-        .auth-message {
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .auth-message a {
-            cursor: pointer;
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .auth-message a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    footer {
+      background-color: #001f3f;
+      color: #ccc;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+  </style>
 </head>
-
 <body>
-    <!-- Loading Spinner -->
-    <div id="loading-spinner" class="text-center mt-5">
-        <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-        <p class="mt-2">Loading content...</p>
+
+  <header>
+    <h1>SwiftBoost Productivity Suite</h1>
+    <p>Unlock your potential with intelligent tools designed to help you work smarter, not harder.</p>
+  </header>
+
+  <section class="features">
+    <div class="feature">
+      <h3>Smart Task Manager</h3>
+      <p>Organize and prioritize your tasks with our intuitive drag-and-drop interface and real-time reminders.</p>
     </div>
+    <div class="feature">
+      <h3>AI Writing Assistant</h3>
+      <p>Create emails, blogs, and social media posts faster with built-in smart suggestions and grammar correction.</p>
+    </div>
+    <div class="feature">
+      <h3>Time Tracker</h3>
+      <p>Track your time efficiently and identify productivity gaps with our easy-to-use time logging system.</p>
+    </div>
+  </section>
 
-    <header>
-        <div class="cont">
-            <h1 class="start">Micro Task Website</h1>
-        </div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">
-                <img src="logo.png" alt="Micro Task Logo" style="width: 200px; height: auto;">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <!-- The 'Surveys', 'Videos', 'Tasks', 'User Dashboard', 'Earnings Dashboard', and 'Withdraw' links should be hidden if the user is not logged in -->
-                    <li class="nav-item logged-in">
-                        <a class="nav-link" href="#surveys">Surveys</a>
-                    </li>
-                    <li class="nav-item logged-in">
-                        <a class="nav-link" href="#videos">Videos</a>
-                    </li>
-                    <li class="nav-item logged-in">
-                        <a class="nav-link" href="#tasks">Tasks</a>
-                    </li>
-                    <li class="nav-item logged-in">
-                        <a class="nav-link" href="#user-dashboard">User Dashboard</a>
-                    </li>
-                    <li class="nav-item logged-in">
-                        <a class="nav-link" href="#earnings-dashboard">Earnings Dashboard</a>
-                    </li>
-                    <li class="nav-item logged-in">
-                        <a class="nav-link" href="#withdraw" onclick="openWithdrawalModal()">Withdraw</a>
-                    </li>
-                    <li class="nav-item logged-out">
-                        <a class="nav-link" href="#" onclick="showLogin()">Login</a>
-                    </li>
-                    <li class="nav-item logged-out">
-                        <a class="nav-link" href="#" onclick="showSignup()">Sign Up</a>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-dark" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-                    </li>
-                    <li class="nav-item logged-in">
-                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+  <section class="cta-section">
+    <h2>Ready to take control of your time?</h2>
+    <p>Sign up today and get your first 7 days free. No credit card required.</p>
+    <button onclick="signUp()">Sign Up Now</button>
+  </section>
 
-    <main class="container mt-4">
-        <!-- Surveys Section -->
-        <section id="surveys" class="bg-red p-4 rounded shadow d-none" style="background-color: gold;">
-            <h2>Surveys</h2>
-            <p>Complete surveys from the following partners to earn rewards:</p>
-            <div class="row" id="survey-list">
-                <!-- Surveys will be dynamically loaded here -->
-            </div>
-            <button class="btn btn-info mt-3" onclick="loadMoreSurveys()">Load More</button>
-        </section>
+  <footer>
+    &copy; 2025 SwiftBoost Inc. | <a href="#" style="color: #bbb;">Privacy Policy</a> | <a href="#" style="color: #bbb;">Terms of Service</a>
+  </footer>
 
-        <!-- Videos Section -->
-        <section id="videos" class="bg-white p-4 rounded shadow d-none mt-4">
-            <h2>Videos</h2>
-            <p>Watch the following short videos on Computer Science to earn rewards:</p>
-            <div class="row" id="video-list">
-                <!-- Videos will be dynamically loaded here -->
-            </div>
-            <button class="btn btn-info mt-3" onclick="loadMoreVideos()">Load More</button>
-        </section>
+  <script>
+    function signUp() {
+      const name = prompt("What's your name?");
+      if (name) {
+        alert("Thanks, " + name + "! We've saved your interest. We'll reach out soon.");
+      } else {
+        alert("No worries! You can always sign up later.");
+      }
+    }
+  </script>
 
-        <!-- Tasks Section -->
-        <section id="tasks" class="bg-red p-4 rounded shadow d-none mt-4" style="background-color: gold;">
-            <h2>Tasks</h2>
-            <p>Complete tasks from both surveys and videos to earn rewards:</p>
-            <button class="btn btn-info task-button" onclick="redirectToSurvey()">Complete Survey Task (Earn 10 points)</button>
-            <button class="btn btn-info task-button" onclick="redirectToVideo()">Complete Video Task (Earn 5 points)</button>
-        </section>
-
-        <!-- User Dashboard Section -->
-        <section id="user-dashboard" class="dashboard bg-light p-4 rounded shadow d-none">
-            <h2>User Dashboard</h2>
-            <p>Welcome, <span id="user-name">User</span>!</p>
-            <p>Tasks Completed: <span id="tasks-completed">0</span></p>
-            <div class="progress mt-3">
-                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-        </section>
-
-        <!-- Earnings Dashboard Section -->
-        <section id="earnings-dashboard" class="dashboard bg-red p-4 rounded shadow d-none mt-4" style="background-color: gold;">
-            <h2>Earnings Dashboard</h2>
-            <p>Total Earnings: <span id="total-earnings">0</span> points</p>
-        </section>
-
-        <!-- Withdrawal Modal -->
-        <div class="modal fade" id="withdrawalModal" tabindex="-1" role="dialog" aria-labelledby="withdrawalModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="withdrawalModalLabel">Withdrawal</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Minimum withdrawal amount is 100 SHS. Your current balance is <span id="current-balance">0</span> SHS.</p>
-                        <form id="withdrawalForm">
-                            <div class="form-group">
-                                <label for="mobileNumber">Mobile Number</label>
-                                <input type="text" class="form-control" id="mobileNumber" placeholder="Enter mobile number" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="amount">Amount to Withdraw</label>
-                                <input type="number" class="form-control" id="amount" placeholder="Enter amount" required>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" onclick="processWithdrawal()">Withdraw</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Login Section (Dynamically Generated) -->
-        <section id="loginSection" class="mt-4">
-            </section>
-
-        <!-- Signup Section (Dynamically Generated) -->
-        <section id="signupSection" class="mt-4">
-            </section>
-
-        <!-- Forgot Password Modal -->
-        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="forgotPasswordForm">
-                            <div class="form-group">
-                                <label for="forgotEmail">Email address</label>
-                                <input type="email" class="form-control" id="forgotEmail" placeholder="Enter your email" required>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="handleForgotPassword()">Send Reset Link</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="text-center text-white p-4 mt-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Follow Us</h5>
-                    <a href="#" class="text-white mx-2"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
-                </div>
-                <div class="col-md-6">
-                    <h5>Subscribe to Our Newsletter</h5>
-                    <form class="form-inline justify-content-center" onsubmit="return subscribe()">
-                        <input type="email" class="form-control mr-2" id="subscribeEmail" placeholder="Enter your email" required>
-                        <button type="submit" class="btn btn-primary">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <p class="mt-3">&copy; 2025 Micro Task Website</p>
-        </div>
-    </footer>
-
-    <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Toast Notification Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <script>
-        // Configure toastr options for points notification
-        toastr.options = {
-            timeOut: 3000,
-            positionClass: "toast-top-right",
-            closeButton: true
-        };
-
-        // Enhanced User State Management
-        let userState = JSON.parse(localStorage.getItem('microTaskUser')) || {
-            isRegistered: false,
-            email: '',
-            password: '',
-            name: '',
-            mobile: '',
-            earnings: 0,
-            tasksCompleted: 0,
-            watchedVideos: [],
-            completedSurveys: [],
-            darkMode: localStorage.getItem('darkMode') === 'true'
-        };
-
-        // Initialize state from localStorage
-        let isRegistered = userState.isRegistered;
-        let earnings = userState.earnings;
-        let tasksCompleted = userState.tasksCompleted;
-        const watchedVideos = userState.watchedVideos;
-        const pointsFromVideo = 5;
-
-        // Save state to localStorage
-        function saveUserState() {
-            userState = {
-                isRegistered,
-                email: userState.email,
-                password: userState.password,
-                name: userState.name,
-                mobile: userState.mobile,
-                earnings,
-                tasksCompleted,
-                watchedVideos,
-                completedSurveys: userState.completedSurveys,
-                darkMode: document.body.classList.contains('dark-mode')
-            };
-            localStorage.setItem('microTaskUser', JSON.stringify(userState));
-        }
-
-        // Enhanced Authentication
-        function handleAuth(isLogin) {
-            const email = document.getElementById(isLogin ? 'loginEmail' : 'signupEmail').value;
-            const password = document.getElementById(isLogin ? 'loginPassword' : 'signupPassword').value;
-
-            if (!validateEmail(email)) {
-                toastr.error('Invalid email address');
-                return false;
-            }
-
-            if (!validatePassword(password)) {
-                toastr.error('Password must be at least 8 characters');
-                return false;
-            }
-
-            if (!isLogin) {
-                if (userState.isRegistered) {
-                    toastr.error('An account already exists. Please login instead.');
-                    return false;
-                }
-
-                const name = document.getElementById('signupName').value;
-                const mobile = document.getElementById('signupMobile').value;
-                if (!name || !mobile) {
-                    toastr.error('All fields are required');
-                    return false;
-                }
-
-                // Store user details
-                userState.name = name;
-                userState.mobile = mobile;
-                userState.email = email;
-                userState.password = password;
-                userState.isRegistered = true;
-            } else {
-                if (email !== userState.email || password !== userState.password) {
-                    toastr.error('Invalid email or password');
-                    return false;
-                }
-            }
-
-            isRegistered = true;
-            saveUserState();
-            showContent();
-            toastr.success(isLogin ? 'Welcome back!' : 'Account created!');
-            return false;
-        }
-
-        function handleForgotPassword() {
-            const email = document.getElementById('forgotEmail').value.trim();
-            if (!validateEmail(email)) {
-                toastr.error('Please enter a valid email address');
-                return;
-            }
-
-            if (userState.isRegistered && email === userState.email) {
-                toastr.success('Password reset instructions sent to your email');
-                $('#forgotPasswordModal').modal('hide');
-            } else {
-                toastr.error('No account found with this email');
-            }
-        }
-
-        // Login/Signup handlers
-        function login() {
-            if (handleAuth(true)) {
-                return true; // Allow form submission if authentication succeeds
-            }
-            return false; // Prevent form submission if authentication fails
-        }
-        function signup() {
-            if (handleAuth(false)) {
-                return true; // Allow form submission if authentication succeeds
-            }
-            return false; // Prevent form submission if authentication fails
-        }
-
-        // Navigation Helpers
-        function showLogin() {
-            const loginSection = document.getElementById('loginSection');
-            loginSection.innerHTML = `
-                <div id="login" class="form-container fade-in">
-                    <h2>Login</h2>
-                    <form onsubmit="return login()">
-                        <div class="form-group">
-                            <label for="loginEmail">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="Enter email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="loginPassword">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                            <a href="#forgot-password" class="btn btn-link" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password?</a>
-                        </div>
-                    </form>
-                    <div class="auth-message">
-                        Don't have an account? <a href="#" onclick="showSignup()">Sign up here</a>
-                    </div>
-                </div>
-            `;
-            // Ensure signup section is hidden
-            document.getElementById('signupSection').innerHTML = '';
-            document.getElementById('loginSection').scrollIntoView({ behavior: 'smooth' }); // Scroll to login
-        }
-
-        function showSignup() {
-            const signupSection = document.getElementById('signupSection');
-            signupSection.innerHTML = `
-                <div id="signup" class="form-container fade-in">
-                    <h2>Sign Up</h2>
-                    <form onsubmit="return signup()">
-                        <div class="form-group">
-                            <label for="signupName">Full Name</label>
-                            <input type="text" class="form-control" id="signupName" placeholder="Enter your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signupEmail">Email address</label>
-                            <input type="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signupMobile">Mobile Number</label>
-                            <input type="text" class="form-control" id="signupMobile" placeholder="Enter mobile number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signupPassword">Password</label>
-                            <input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success">Sign Up</button>
-                        </div>
-                    </form>
-                    <div class="auth-message">
-                        Already have an account? <a href="#" onclick="showLogin()">Login here</a>
-                    </div>
-                </div>
-            `;
-             // Ensure login section is hidden
-             document.getElementById('loginSection').innerHTML = '';
-            document.getElementById('signupSection').scrollIntoView({ behavior: 'smooth' }); // Scroll to signup
-        }
-
-        function logout() {
-            isRegistered = false;
-            userState.isRegistered = false;
-            saveUserState();
-            showContent();
-            toastr.info('You have been logged out.');
-        }
-
-        // Surveys and Videos Data (Simulated API)
-        const surveys = [
-            { name: "Swagbucks", points: 10, link: "https://www.swagbucks.com/" },
-            { name: "Survey Junkie", points: 15, link: "https://www.surveyjunkie.com/" },
-            { name: "Google Opinion Rewards", points: 5, link: "https://play.google.com/store/apps/details?id=com.google.android.apps.paidtasks&hl=en&gl=US" },
-            { name: "MyPoints", points: 20, link: "https://www.mypoints.com/" },
-            { name: "InboxDollars", points: 12, link: "https://www.inboxdollars.com/" },
-        ];
-
-        const videos = [
-            { src: "https://www.youtube.com/embed/i5DCqgl9dFk", points: 15 },
-            { src: "https://www.youtube.com/embed/mfrQTgBwKk8", points: 15 },
-            { src: "https://www.youtube.com/embed/WxYC9-hBM_g", points: 15 },
-            { src: "https://www.youtube.com/embed/Wjrdr0NU4Sk", points: 15 },
-            { src: "https://www.youtube.com/embed/7TR-FLWNVHY", points: 15 },
-        ];
-
-        let surveyPage = 0;
-        let videoPage = 0;
-
-        // Load More Surveys
-        function loadMoreSurveys() {
-            const surveyList = document.getElementById("survey-list");
-            const start = surveyPage * 2;
-            const end = start + 2;
-
-            surveys.slice(start, end).forEach((survey) => {
-                const surveyItem = document.createElement("div");
-                surveyItem.className = "col-md-6 mb-3";
-                surveyItem.innerHTML = `
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">${survey.name}</h5>
-                            <p class="card-text">Earn ${survey.points} points</p>
-                            <a href="${survey.link}" target="_blank" class="btn btn-primary">Start Survey</a>
-                        </div>
-                    </div>
-                `;
-                surveyList.appendChild(surveyItem);
-            });
-
-            surveyPage++;
-            if (end >= surveys.length) {
-                document.querySelector("#surveys button").disabled = true;
-            }
-        }
-
-        // Load More Videos
-        function loadMoreVideos() {
-            const videoList = document.getElementById("video-list");
-            const start = videoPage * 2;
-            const end = start + 2;
-
-            videos.slice(start, end).forEach((video) => {
-                const videoItem = document.createElement("div");
-                videoItem.className = "col-md-6 mb-3";
-                videoItem.innerHTML = `
-                    <div class="card">
-                        <div class="card-body">
-                            <iframe src="${video.src}" allowfullscreen onload="trackVideo(this, ${video.points})"></iframe>
-                        </div>
-                    </div>
-                `;
-                videoList.appendChild(videoItem);
-            });
-
-            videoPage++;
-            if (end >= videos.length) {
-                document.querySelector("#videos button").disabled = true;
-            }
-        }
-
-        // Simple Video Tracking
-        function trackVideo(videoElement, pointsToEarn) {
-            const videoSrc = videoElement.src;
-            if (watchedVideos.includes(videoSrc)) return;
-
-            let watchDuration = 0;
-            let interval = null;
-            const requiredTime = 10; // 10 seconds required viewing
-
-            const checkVideoProgress = () => {
-                watchDuration++;
-                if (watchDuration >= requiredTime) {
-                    earnings += pointsFromVideo;
-                    tasksCompleted++;
-                    watchedVideos.push(videoSrc);
-                    updateDashboard();
-                    saveUserState();
-                    clearInterval(interval);
-                }
-            };
-
-            // Listen for YouTube player events
-            videoElement.addEventListener('load', () => { // Use 'load' event instead of 'play'
-                interval = setInterval(checkVideoProgress, 1000);
-            });
-
-            videoElement.addEventListener('pause', () => {
-                clearInterval(interval);
-            });
-            videoElement.addEventListener('ended', () => {
-                clearInterval(interval);
-            });
-        }
-
-        // Show main content
-        function showContent() {
-            document.getElementById('loading-spinner').style.display = 'none';
-            const loggedInElements = document.querySelectorAll('.logged-in');
-            const loggedOutElements = document.querySelectorAll('.logged-out');
-            const mainSections = document.querySelectorAll('main section:not(#loginSection):not(#signupSection)');
-
-            if (isRegistered) {
-                // Hide login/signup and show logged-in content
-                loggedInElements.forEach(el => el.style.display = 'block');
-                loggedOutElements.forEach(el => el.style.display = 'none');
-                document.getElementById('loginSection').innerHTML = '';
-                document.getElementById('signupSection').innerHTML = '';
-                mainSections.forEach(section => section.classList.remove('d-none'));
-            } else {
-                // Hide logged-in and show login (by default)
-                loggedInElements.forEach(el => el.style.display = 'none');
-                loggedOutElements.forEach(el => el.style.display = 'block');
-                mainSections.forEach(section => section.classList.add('d-none'));
-                showLogin();
-            }
-        }
-
-        // Validation functions
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        function validatePassword(password) {
-            return password.length >= 8;
-        }
-
-        // Dashboard updates
-        function updateDashboard() {
-            document.getElementById('total-earnings').textContent = earnings;
-            document.getElementById('tasks-completed').textContent = tasksCompleted;
-            document.getElementById('current-balance').textContent = earnings;
-
-            const progress = (tasksCompleted % 10) * 10;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-
-            saveUserState();
-        }
-
-        // Withdrawal processing
-        function processWithdrawal() {
-            const amountInput = document.getElementById('amount');
-            const amount = parseInt(amountInput.value);
-            const minWithdrawal = 100;
-
-            if (isNaN(amount) || amount < minWithdrawal) {
-                toastr.error(`Minimum withdrawal is ${minWithdrawal} SHS`);
-                return;
-            }
-
-            if (amount > earnings) {
-                toastr.error(`Insufficient balance. Available: ${earnings} SHS`);
-                return;
-            }
-
-            earnings -= amount;
-            amountInput.value = '';
-            updateDashboard();
-            $('#withdrawalModal').modal('hide');
-            toastr.success(`Withdrawal of ${amount} SHS processed!`);
-        }
-
-        // UI Helpers
-        function redirectToSurvey() {
-            document.getElementById('surveys').scrollIntoView();
-            toastr.info('Complete a survey to earn points');
-        }
-
-        function redirectToVideo() {
-            document.getElementById('videos').scrollIntoView();
-            toastr.info('Watch videos to earn points');
-        }
-
-        function openWithdrawalModal() {
-            $('#withdrawalModal').modal('show');
-            document.getElementById('current-balance').textContent = earnings;
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-            saveUserState();
-        }
-
-        // Initialize
-        if (userState.darkMode) {
-            document.body.classList.add('dark-mode');
-        }
-
-        showContent();
-
-        // Newsletter Subscription
-        function subscribe() {
-            const email = document.getElementById('subscribeEmail').value;
-            if (validateEmail(email)) {
-                toastr.success('Thank you for subscribing!');
-            } else {
-                toastr.error('Please enter a valid email');
-            }
-            return false;
-        }
-
-        // Initial content load
-        window.onload = () => {
-            loadMoreSurveys();
-            loadMoreVideos();
-        };
-    </script>
 </body>
 </html>
