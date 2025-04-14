@@ -1,134 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SwiftBoost - Productivity Tools</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f8fb;
-      color: #333;
-    }
-
-    header {
-      background: linear-gradient(to right, #00c6ff, #0072ff);
-      color: white;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 20px;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 40px 20px;
-      background-color: #fff;
-    }
-
-    .feature {
-      flex: 1 1 300px;
-      margin: 20px;
-      padding: 20px;
-      background-color: #eef2f7;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .feature h3 {
-      margin-top: 0;
-      color: #0072ff;
-    }
-
-    .cta-section {
-      text-align: center;
-      padding: 50px 20px;
-      background: #e0f7fa;
-    }
-
-    .cta-section h2 {
-      font-size: 32px;
-    }
-
-    .cta-section button {
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #0072ff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-
-    .cta-section button:hover {
-      background-color: #005fcc;
-    }
-
-    footer {
-      background-color: #001f3f;
-      color: #ccc;
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s;
+        }
+        h2 {
+            color: #3f51b5;
+        }
+        .info {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff9800;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #e68900;
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            color: #d9534f; /* Error Message Red */
+        }
+        .persuasion {
+            background: #d1c4e9;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        #welcomeSection {
+            display: none;
+            background: linear-gradient(135deg, #d6d4e4, #e1bee7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        #loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>SwiftBoost Productivity Suite</h1>
-    <p>Unlock your potential with intelligent tools designed to help you work smarter, not harder.</p>
-  </header>
-
-  <section class="features">
-    <div class="feature">
-      <h3>Smart Task Manager</h3>
-      <p>Organize and prioritize your tasks with our intuitive drag-and-drop interface and real-time reminders.</p>
+    <div class="container" id="registrationSection">
+        <h2><i class="fas fa-user-plus"></i> Register Now</h2>
+        <p class="info">
+            <strong>Activate your account now for only KSh 55!</strong><br>
+            Earn a maximum of KSh 175 per day every 5 days!
+        </p>
+        <p class="persuasion">
+            <i class="fas fa-coins"></i> 
+            Don’t miss out on this incredible opportunity! 
+            Activate your account today and start earning daily! 
+            <br><strong>Payment Account:</strong> 0750180139
+        </p>
+        <input type="text" id="fullName" placeholder="Full Name" required>
+        <input type="text" id="transactionCode" placeholder="Transaction Code" required>
+        <button onclick="register()">Activate Account</button>
+        <p class="message" id="message"></p>
     </div>
-    <div class="feature">
-      <h3>AI Writing Assistant</h3>
-      <p>Create emails, blogs, and social media posts faster with built-in smart suggestions and grammar correction.</p>
+
+    <div id="welcomeSection">
+        <h1>Welcome Active Member</h1>
+        <p>Content loading, please be patient...</p>
+        <div id="loader"></div>
     </div>
-    <div class="feature">
-      <h3>Time Tracker</h3>
-      <p>Track your time efficiently and identify productivity gaps with our easy-to-use time logging system.</p>
-    </div>
-  </section>
 
-  <section class="cta-section">
-    <h2>Ready to take control of your time?</h2>
-    <p>Sign up today and get your first 7 days free. No credit card required.</p>
-    <button onclick="signUp()">Sign Up Now</button>
-  </section>
+    <script>
+        // A function to validate if the transaction code is "valid". 
+        // In a real-world application, this should be done against a secure database.
+        function isValidTransactionCode(code) {
+            // Example of allowed codes (for demonstration). 
+            // Replace with your actual transaction verification logic.
+            const validCodes = ['1234567890', '0987654321', '1122334455']; // Add real codes as needed
+            return validCodes.includes(code);
+        }
 
-  <footer>
-    &copy; 2025 SwiftBoost Inc. | <a href="#" style="color: #bbb;">Privacy Policy</a> | <a href="#" style="color: #bbb;">Terms of Service</a>
-  </footer>
+        function register() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const transactionCode = document.getElementById('transactionCode').value.trim();
+            const message = document.getElementById('message');
+            
+            // Input Validation
+            if (fullName === "" || transactionCode === "") {
+                message.textContent = "Please fill in all fields.";
+                return;
+            }
 
-  <script>
-    function signUp() {
-      const name = prompt("What's your name?");
-      if (name) {
-        alert("Thanks, " + name + "! We've saved your interest. We'll reach out soon.");
-      } else {
-        alert("No worries! You can always sign up later.");
-      }
-    }
-  </script>
+            // Validate Transaction Code
+            if (!isValidTransactionCode(transactionCode)) {
+                message.textContent = "Invalid transaction code. Please check your input.";
+                return;
+            }
 
+            // Store the user as "active"
+            localStorage.setItem("activeMember", fullName);
+            localStorage.setItem("activationCode", transactionCode);
+
+            // Hide registration and show welcome section
+            document.getElementById('registrationSection').style.display = 'none';
+            document.getElementById('welcomeSection').style.display = 'block';
+
+            // Simulate loading
+            setTimeout(() => {
+                const activeMember = localStorage.getItem("activeMember");
+                document.getElementById('welcomeSection').innerHTML = `
+                    <h1>Welcome, ${activeMember}!</h1>
+                    <p>Your account is now active. Enjoy your earnings!</p>`;
+            }, 2000); // 2 seconds loading time
+        }
+    </script>
 </body>
 </html>
