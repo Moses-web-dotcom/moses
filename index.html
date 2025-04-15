@@ -1,212 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-            overflow: hidden; /* Prevent overflow from animation */
-        }
-        .container {
-            width: 350px;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.5s;
-            position: relative; /* Set relative positioning for animations inside */
-            z-index: 1; /* Ensure it appears above the floating icons */
-        }
-        h2 {
-            color: #3f51b5;
-            margin-bottom: 10px;
-        }
-        .info, .persuasion {
-            margin-bottom: 20px;
-            color: #555;
-            font-size: 14px;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus, 
-        input[type="number"]:focus {
-            border-color: #3f51b5; /* Highlight border on focus */
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: #ff9800;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #e68900;
-        }
-        .message {
-            text-align: center;
-            margin-top: 20px;
-            color: #d9534f; /* Error Message Red */
-        }
-        .persuasion {
-            background: #d1c4e9;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 14px;
-            margin: 10px 0;
-            position: relative; /* For positioning icon */
-        }
-        .persuasion i {
-            position: absolute;
-            left: 10px;
-            top: 8px;
-        }
-        #welcomeSection {
-            display: none;
-            background: linear-gradient(135deg, #d6d4e4, #e1bee7);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        }
-        #loader {
-            border: 16px solid #f3f3f3;
-            border-top: 16px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .money-icon {
-            position: absolute;
-            font-size: 50px; /* Adjust icon size */
-            color: #3f51b5;
-            opacity: 0.3; /* Faint look */
-        }
-        .money-icon-one {
-            animation: float 4s infinite;
-            top: -60px;
-            left: 20%;
-        }
-        .money-icon-two {
-            animation: float 6s infinite;
-            top: -60px;
-            right: 20%;
-        }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration Page</title>
+  <!-- Font Awesome for web icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <!-- Google Fonts for elegant typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes borderAnim {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .invisible-admin-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+    }
+    
+    .container {
+      width: 350px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      margin: 80px auto 20px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+      background-image: url('https://source.unsplash.com/350x350/?finance,technology');
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: lighten;
+      animation: fadeIn 1s ease-out both;
+    }
+    
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #3f51b5, #ff9800, #d1c4e9);
+      z-index: -1;
+      border-radius: 18px;
+      animation: borderAnim 3s linear infinite;
+    }
+    
+    .container::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      z-index: 0;
+    }
+    
+    .container > * {
+      position: relative;
+      z-index: 1;
+    }
+    
+    h2 {
+      color: #3f51b5;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Enhanced Info Styling */
+    .info {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 15px;
+      line-height: 1.8;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      border-left: 5px solid #ff9800;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      display: inline-block;
+      text-align: left;
+    }
+    
+    .info i {
+      color: #ff9800;
+      margin-right: 8px;
+    }
+    
+    /* Persuasion Styling */
+    .persuasion {
+      position: relative;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd);
+      background-size: 200% 200%;
+      animation: gradientShift 5s ease infinite;
+      border-radius: 12px;
+      padding: 20px 20px 20px 60px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.6;
+      color: #fff;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,255,255,0.7);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    
+    .persuasion i {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 28px;
+      animation: pulse 2s infinite ease-in-out;
+      color: #fff;
+    }
+    
+    .persuasion::before {
+      content: "\f005";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      font-size: 30px;
+      color: rgba(255, 255, 255, 0.6);
+      animation: spin 6s linear infinite;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-size: 15px;
+    }
+    
+    input[type="text"]:focus {
+      border-color: #3f51b5;
+      box-shadow: 0 0 8px rgba(63, 81, 181, 0.5);
+      outline: none;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-weight: bold;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .message {
+      color: #d9534f;
+      margin-top: 10px;
+      font-weight: 600;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    /* Payment Method Section */
+    .payment-method {
+      margin: 20px 0 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #3f51b5;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #ff9800, #d1c4e9);
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .payment-method i {
+      font-size: 24px;
+      animation: pulse 2s infinite;
+      color: white;
+    }
+    
+    /* Payment Buttons */
+    .payment-btn {
+      width: 90%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-weight: bold;
+    }
+    
+    .paypal-btn {
+      background-color: #0070ba;
+      color: white;
+    }
+    
+    .paypal-btn:hover {
+      background-color: #005f9e;
+    }
+    
+    .mpesa-btn {
+      background: linear-gradient(45deg, #4CAF50, #388E3C);
+      color: white;
+    }
+    
+    .mpesa-btn:hover {
+      background: linear-gradient(45deg, #388E3C, #2E7D32);
+    }
+    
+    /* Modal Popup for M-Pesa */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      background: linear-gradient(45deg, #d1c4e9, #ff9800);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      border-radius: 15px;
+      text-align: left;
+      z-index: 999;
+      color: white;
+    }
+    
+    .modal h3 {
+      margin-bottom: 15px;
+      font-size: 22px;
+      text-align: center;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, #ff9800, #3f51b5);
+      padding: 10px;
+      border-radius: 8px;
+    }
+    
+    .modal ul {
+      padding-left: 20px;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    
+    .modal ul li {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0;
+    }
+    
+    .modal ul li i {
+      font-size: 20px;
+      color: #ffffff;
+    }
+    
+    .modal button {
+      display: block;
+      margin: 20px auto 0;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      background-color: #d9534f;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .modal button:hover {
+      background-color: #c9302c;
+    }
+    
+    #welcomeSection {
+      display: none;
+      background: linear-gradient(135deg, #d6d4e4, #e1bee7);
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px auto;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-out both;
+    }
+    
+    #adminPanel {
+      display: none;
+      margin-top: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    ul {
+      padding-left: 0;
+      list-style: none;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
 
-    <i class="fas fa-dollar-sign money-icon money-icon-one"></i>
-    <i class="fas fa-money-bill-wave money-icon money-icon-two"></i>
+  <!-- Invisible Admin Button -->
+  <button class="invisible-admin-btn" onclick="promptAdminAccess()"></button>
 
-    <div class="container" id="registrationSection">
-        <h2><i class="fas fa-user-plus"></i> Register Now</h2>
-        <p class="info">
-            <strong>Activate your account now for only KSh 65 (Mobile) or $1 (PayPal)!</strong><br>
-            Earn KSh 175 per day with Mobile Payments.<br>
-            Choose PayPal, earn $1.80 per day!
-        </p>
-        <p class="persuasion">
-            <i class="fas fa-thumbs-up"></i> 
-            This is your chance for **financial freedom!** 
-            Invest today and reap daily rewards!
-        </p>
-        <input type="text" id="fullName" placeholder="Full Name" required>
-        <input type="text" id="transactionCode" placeholder="Transaction Code" required>
-        <button onclick="register()">Activate Account</button>
-        <p class="message" id="message"></p>
-
-        <p>
-            <strong>Choose Your Payment Method:</strong>
-        </p>
-        <button onclick="payViaPayPal()">Pay via PayPal ($1)</button>
-        <p class="message" id="paypalMessage"></p>
+  <div class="container" id="registrationSection">
+    <h2><i class="fas fa-user-plus"></i> Register Now</h2>
+    
+    <!-- Persuasive Info Section -->
+    <p class="info">
+      <i class="fas fa-bolt"></i>
+      <strong>Activate your account today</strong> for only <strong>KSh 65</strong> via Mobile Payments or just <strong>$1</strong> via PayPal!<br>
+      <i class="fas fa-hand-holding-usd"></i>
+      Earn up to <strong>KSh 175</strong> daily or <strong>$1.80</strong> with PayPal transactions!<br>
+      <i class="fas fa-thumbs-up"></i>
+      Join our community and unlock your path to financial freedom!
+    </p>
+    
+    <p class="persuasion">
+      <i class="fas fa-thumbs-up"></i> 
+      <span>
+        <strong>Unlock Your Future Now!</strong><br>
+        Transform your life with daily rewards and exclusive benefits.<br>
+        <i class="fas fa-rocket"></i> Join our vibrant community and rocket your financial journey to soaring heights!
+      </span>
+    </p>
+    
+    <input type="text" id="fullName" placeholder="Full Name" required>
+    <input type="text" id="phoneNumber" placeholder="Phone Number" required>
+    <input type="text" id="transactionCode" placeholder="Transaction Code" required>
+    <button onclick="register()">Activate Account</button>
+    <p class="message" id="message"></p>
+    
+    <!-- Payment Method Section -->
+    <div class="payment-method">
+      <i class="fas fa-wallet"></i> Choose Payment Method:
     </div>
+    
+    <button class="payment-btn paypal-btn" onclick="payViaPayPal()">Pay via PayPal ($1)</button>
+    <button class="payment-btn mpesa-btn" onclick="showMpesaPopup()">Pay via M-Pesa (KShs 85)</button>
+    <p class="message" id="paypalMessage"></p>
+  </div>
 
-    <div id="welcomeSection">
-        <h1>Welcome Active Member</h1>
-        <p>Content loading, please be patient...</p>
-        <div id="loader"></div>
+  <!-- M-Pesa Popup Modal -->
+  <div class="modal" id="mpesaPopup">
+    <h3><i class="fas fa-money-check-alt"></i> Payment Instructions</h3>
+    <p style="font-size:16px; font-weight:600; margin:10px 0;">Follow the prompts below to activate your financial account:</p>
+    <ul>
+      <li><i class="fas fa-mobile-alt"></i> Go to M-Pesa</li>
+      <li><i class="fas fa-exchange-alt"></i> Send the exact amount (KShs 85) to our accountant account: <strong>0769976265</strong></li>
+      <li><i class="fas fa-clipboard-check"></i> Paste the transaction code, your name, and phone number on the registration page, then click "Activate Account"</li>
+    </ul>
+    <button onclick="closeMpesaPopup()">OK</button>
+  </div>
+
+  <div id="welcomeSection">
+    <h1>Welcome, Active Member!</h1>
+    <p>Your account is now active. Enjoy your earnings!</p>
+
+    <div id="adminPanel">
+      <h3>Registered Visitors</h3>
+      <ul id="userList"></ul>
+      <button style="margin-top: 15px; background-color: #d9534f;" onclick="clearVisitorData()">Clear All Visitor Data</button>
     </div>
+  </div>
 
-    <script>
-        // A function to validate if the transaction code is "valid". 
-        // In a real-world application, this should be done against a secure database.
-        function isValidTransactionCode(code) {
-            // Example of allowed codes (for demonstration). 
-            const validCodes = ['1234567890', '0987654321', '1122334455']; // Add real codes as needed
-            return validCodes.includes(code);
-        }
+  <script>
+    // Log anonymous visitor on page load
+    window.onload = () => {
+      const userData = {
+        name: "Anonymous Visitor",
+        phone: "N/A",
+        code: "N/A",
+        valid: false,
+        date: new Date().toLocaleString()
+      };
+      let allUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+      allUsers.push(userData);
+      localStorage.setItem("registeredUsers", JSON.stringify(allUsers));
+    };
 
-        function register() {
-            const fullName = document.getElementById('fullName').value.trim();
-            const transactionCode = document.getElementById('transactionCode').value.trim();
-            const message = document.getElementById('message');
-            
-            // Input Validation
-            if (fullName === "" || transactionCode === "") {
-                message.textContent = "Please fill in all fields.";
-                return;
-            }
+    function isValidTransactionCode(code) {
+      const validCodes = ['1234567890', '0987654321', '1122334455'];
+      return validCodes.includes(code);
+    }
 
-            // Validate Transaction Code
-            if (!isValidTransactionCode(transactionCode)) {
-                message.textContent = "Invalid transaction code. Please check your input.";
-                return;
-            }
+    function register() {
+      const fullName = document.getElementById('fullName').value.trim();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
+      const transactionCode = document.getElementById('transactionCode').value.trim();
+      const message = document.getElementById('message');
 
-            // Store the user as "active"
-            localStorage.setItem("activeMember", fullName);
-            localStorage.setItem("activationCode", transactionCode);
+      if (fullName === "" || phoneNumber === "" || transactionCode === "") {
+        message.textContent = "Please fill in all fields.";
+        return;
+      }
 
-            // Hide registration and show welcome section
-            document.getElementById('registrationSection').style.display = 'none';
-            document.getElementById('welcomeSection').style.display = 'block';
+      const userData = {
+        name: fullName,
+        phone: phoneNumber,
+        code: transactionCode,
+        valid: isValidTransactionCode(transactionCode),
+        date: new Date().toLocaleString()
+      };
 
-            // Simulate loading
-            setTimeout(() => {
-                const activeMember = localStorage.getItem("activeMember");
-                document.getElementById('welcomeSection').innerHTML = `
-                    <h1>Welcome, ${activeMember}!</h1>
-                    <p>Your account is now active. Enjoy your earnings!</p>`;
-            }, 2000); // 2 seconds loading time
-        }
+      let allUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+      allUsers.push(userData);
+      localStorage.setItem("registeredUsers", JSON.stringify(allUsers));
 
-        function payViaPayPal() {
-            document.getElementById('paypalMessage').textContent = "Redirecting to PayPal to make a payment of $1...";
-            // Redirect to PayPal payment link
-            window.open(`https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sudandioch@gmail.com&item_name=Account Activation&amount=1&currency_code=USD`, '_blank');
-        }
-    </script>
+      if (!userData.valid) {
+        message.textContent = "Invalid transaction code. Your visit was recorded.";
+        return;
+      }
+
+      localStorage.setItem("activeMember", fullName);
+      localStorage.setItem("activationCode", transactionCode);
+
+      document.getElementById('registrationSection').style.display = 'none';
+      document.getElementById('welcomeSection').style.display = 'block';
+    }
+
+    function payViaPayPal() {
+      window.open(`https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sudandioch@gmail.com&item_name=Account Activation&amount=1&currency_code=USD`, '_blank');
+    }
+
+    function showMpesaPopup() {
+      document.getElementById('mpesaPopup').style.display = 'block';
+    }
+
+    function closeMpesaPopup() {
+      document.getElementById('mpesaPopup').style.display = 'none';
+    }
+
+    function promptAdminAccess() {
+      const password = prompt("Enter admin password:");
+      if (password === "Moses@4105") {
+        showAdminPanel();
+      } else {
+        alert("Access denied.");
+      }
+    }
+
+    function showAdminPanel() {
+      const panel = document.getElementById('adminPanel');
+      const list = document.getElementById('userList');
+      const allUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+
+      list.innerHTML = "";
+
+      if (allUsers.length === 0) {
+        list.innerHTML = "<li>No visitors yet.</li>";
+      } else {
+        allUsers.forEach(user => {
+          const li = document.createElement('li');
+          li.textContent = `${user.name} | ${user.phone} | ${user.code} | ${user.date} | Valid: ${user.valid ? "Yes" : "No"}`;
+          list.appendChild(li);
+        });
+      }
+
+      panel.style.display = 'block';
+      document.getElementById('welcomeSection').style.display = 'block';
+      document.getElementById('registrationSection').style.display = 'none';
+    }
+
+    function clearVisitorData() {
+      const confirmClear = confirm("Are you sure you want to clear all registered visitor data?");
+      if (confirmClear) {
+        localStorage.removeItem("registeredUsers");
+        alert("Visitor data has been cleared.");
+        document.getElementById("userList").innerHTML = "<li>No visitors yet.</li>";
+      }
+    }
+  </script>
+
 </body>
 </html>
