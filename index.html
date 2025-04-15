@@ -16,38 +16,47 @@
             height: 100vh;
             margin: 0;
             text-align: center;
+            overflow: hidden; /* Prevent overflow from animation */
         }
         .container {
-            width: 300px;
+            width: 350px;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
             transition: all 0.5s;
+            position: relative; /* Set relative positioning for animations inside */
+            z-index: 1; /* Ensure it appears above the floating icons */
         }
         h2 {
             color: #3f51b5;
+            margin-bottom: 10px;
         }
-        .info {
+        .info, .persuasion {
             margin-bottom: 20px;
             color: #555;
             font-size: 14px;
         }
         input[type="text"], input[type="number"] {
             width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, 
+        input[type="number"]:focus {
+            border-color: #3f51b5; /* Highlight border on focus */
         }
         button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             background-color: #ff9800;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -61,17 +70,23 @@
         }
         .persuasion {
             background: #d1c4e9;
-            border-radius: 5px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 12px;
             font-size: 14px;
             margin: 10px 0;
+            position: relative; /* For positioning icon */
+        }
+        .persuasion i {
+            position: absolute;
+            left: 10px;
+            top: 8px;
         }
         #welcomeSection {
             display: none;
             background: linear-gradient(135deg, #d6d4e4, #e1bee7);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
         #loader {
             border: 16px solid #f3f3f3;
@@ -86,26 +101,56 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .money-icon {
+            position: absolute;
+            font-size: 50px; /* Adjust icon size */
+            color: #3f51b5;
+            opacity: 0.3; /* Faint look */
+        }
+        .money-icon-one {
+            animation: float 4s infinite;
+            top: -60px;
+            left: 20%;
+        }
+        .money-icon-two {
+            animation: float 6s infinite;
+            top: -60px;
+            right: 20%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
+    <i class="fas fa-dollar-sign money-icon money-icon-one"></i>
+    <i class="fas fa-money-bill-wave money-icon money-icon-two"></i>
+
     <div class="container" id="registrationSection">
         <h2><i class="fas fa-user-plus"></i> Register Now</h2>
         <p class="info">
-            <strong>Activate your account now for only KSh 55!</strong><br>
-            Earn a maximum of KSh 175 per day every 5 days!
+            <strong>Activate your account now for only KSh 65 (Mobile) or $1 (PayPal)!</strong><br>
+            Earn KSh 175 per day with Mobile Payments.<br>
+            Choose PayPal, earn $1.80 per day!
         </p>
         <p class="persuasion">
-            <i class="fas fa-coins"></i> 
-            Don’t miss out on this incredible opportunity! 
-            Activate your account today and start earning daily! 
-            <br><strong>Payment Account:</strong> 0750180139
+            <i class="fas fa-thumbs-up"></i> 
+            This is your chance for **financial freedom!** 
+            Invest today and reap daily rewards!
         </p>
         <input type="text" id="fullName" placeholder="Full Name" required>
         <input type="text" id="transactionCode" placeholder="Transaction Code" required>
         <button onclick="register()">Activate Account</button>
         <p class="message" id="message"></p>
+
+        <p>
+            <strong>Choose Your Payment Method:</strong>
+        </p>
+        <button onclick="payViaPayPal()">Pay via PayPal ($1)</button>
+        <p class="message" id="paypalMessage"></p>
     </div>
 
     <div id="welcomeSection">
@@ -119,7 +164,6 @@
         // In a real-world application, this should be done against a secure database.
         function isValidTransactionCode(code) {
             // Example of allowed codes (for demonstration). 
-            // Replace with your actual transaction verification logic.
             const validCodes = ['1234567890', '0987654321', '1122334455']; // Add real codes as needed
             return validCodes.includes(code);
         }
@@ -156,6 +200,12 @@
                     <h1>Welcome, ${activeMember}!</h1>
                     <p>Your account is now active. Enjoy your earnings!</p>`;
             }, 2000); // 2 seconds loading time
+        }
+
+        function payViaPayPal() {
+            document.getElementById('paypalMessage').textContent = "Redirecting to PayPal to make a payment of $1...";
+            // Redirect to PayPal payment link
+            window.open(`https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sudandioch@gmail.com&item_name=Account Activation&amount=1&currency_code=USD`, '_blank');
         }
     </script>
 </body>
